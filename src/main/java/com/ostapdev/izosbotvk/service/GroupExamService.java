@@ -28,14 +28,14 @@ public class GroupExamService {
     public void getAllExamsByGroup(Integer peerId,String group){
         if (peerConfigService.getCurrentPeerConfig(peerId).getGroupNumber().equals("")){
             messageSender
-                    .generateMessage(peerId,"Группа беседы не установлена\nУстановить - !группа [номер]");
+                    .send(peerId,"Группа беседы не установлена\nУстановить - !группа [номер]");
             return;
         }
         messageBuilder.setLength(0);
         messageBuilder.append("Список экзаменов для группы ")
                 .append(group).append("\n------------------------------------------------\n\n");
         if (groupExamRepo.findByGroup(group).isEmpty()){
-            messageSender.generateMessage(peerId,"Группы " + group + " не существует");
+            messageSender.send(peerId,"Группы " + group + " не существует");
         }
 
         groupExamRepo.findByGroup(group).get().getExams().stream()
@@ -48,7 +48,7 @@ public class GroupExamService {
                         .append("\nПреподаватель: ")
                         .append(exam.getTeacher()).append("\nМесто проведения: ")
                         .append(exam.getPlace()).append("\n------------------------------------------------\n\n"));
-        messageSender.generateMessage(peerId,messageBuilder.toString());
+        messageSender.send(peerId,messageBuilder.toString());
     }
 
     public boolean isTodayHasExam(String group,int day){
@@ -66,7 +66,7 @@ public class GroupExamService {
 
     public void todayExamMessage(Integer peerId,String group,int day){
         getTodayExams(group,day);
-        messageSender.generateMessage(peerId,messageBuilder.toString());
+        messageSender.send(peerId,messageBuilder.toString());
     }
 
     private void getTodayExams(String group,int day){

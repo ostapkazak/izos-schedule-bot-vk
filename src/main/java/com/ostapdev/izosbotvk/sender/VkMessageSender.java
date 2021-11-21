@@ -24,7 +24,7 @@ public class VkMessageSender {
         this.botConfigService = botConfigService;
     }
 
-    public void generateMessage(Integer peerId, String messageText) {
+    public void send(Integer peerId, String messageText) {
         try {
             new MessagesSend(botConfigService.getAccessToken())
                     .setPeerId(peerId)

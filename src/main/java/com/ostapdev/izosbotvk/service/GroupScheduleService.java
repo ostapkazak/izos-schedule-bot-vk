@@ -31,7 +31,7 @@ public class GroupScheduleService {
     public void getFullScheduleByGroup(Integer peerId,String group){
         if (peerConfigService.getCurrentPeerConfig(peerId).getGroupNumber().equals("")){
             messageSender
-                    .generateMessage(peerId,"Группа беседы не установлена\nУстановить - !группа [номер]");
+                    .send(peerId,"Группа беседы не установлена\nУстановить - !группа [номер]");
             return;
         }
         messageBuilder.setLength(0);
@@ -46,23 +46,23 @@ public class GroupScheduleService {
             messageBuilder.append("Группы ").append(group).append(" не существует");
         }
 
-        messageSender.generateMessage(peerId,messageBuilder.toString());
+        messageSender.send(peerId,messageBuilder.toString());
     }
 
 
     public void getDailyScheduleByGroup(Integer peerId,String group,boolean today){
         if (peerConfigService.getCurrentPeerConfig(peerId).getGroupNumber().equals("")){
             messageSender
-                    .generateMessage(peerId,"Группа беседы не установлена\nУстановить - !группа [номер]");
+                    .send(peerId,"Группа беседы не установлена\nУстановить - !группа [номер]");
             return;
         }
         messageBuilder.setLength(0);
         if (getCurrentWeekDay(today).equals("")){
             if (today) {
-                messageSender.generateMessage(peerId,"Сегодня занятий нет");
+                messageSender.send(peerId,"Сегодня занятий нет");
             }
             else {
-                messageSender.generateMessage(peerId,"Завтра занятий нет");
+                messageSender.send(peerId,"Завтра занятий нет");
             }
             return;
         }
@@ -81,16 +81,16 @@ public class GroupScheduleService {
                     .ifPresentOrElse(day -> {
                                 if (day.getLessons().isEmpty()){
                                     messageBuilder.setLength(0);
-                                    if (today) messageSender.generateMessage(peerId,"Сегодня занятий нет");
-                                    else messageSender.generateMessage(peerId,"Завтра занятий нет");
+                                    if (today) messageSender.send(peerId,"Сегодня занятий нет");
+                                    else messageSender.send(peerId,"Завтра занятий нет");
                                 }else {
                                     buildDaySchedule(day,false);
-                                    messageSender.generateMessage(peerId,messageBuilder.toString());
+                                    messageSender.send(peerId,messageBuilder.toString());
                                 }
                             }
-                            ,()-> messageSender.generateMessage(peerId,"Сегодня занятий нет"));
+                            ,()-> messageSender.send(peerId,"Сегодня занятий нет"));
         }else {
-            messageSender.generateMessage(peerId,"Группы " + group + " не существует");
+            messageSender.send(peerId,"Группы " + group + " не существует");
         }
     }
 

@@ -26,11 +26,11 @@ public class CommandParser {
     public void parse(Message message){
         if (peerConfigService.getCurrentPeerConfig(message.getPeerId()) == null){
             if (message.getPeerId().equals(message.getFromId())) vkMessageSender
-                    .generateMessage(message.getPeerId(),"Я работаю только в беседах групп кафедры ИЗОС");
+                    .send(message.getPeerId(),"Я работаю только в беседах групп кафедры ИЗОС");
             else {
                 peerConfigService.addNewPeerConfig(message.getPeerId(),"", BotState.DEFAULT,true);
                 vkMessageSender
-                        .generateMessage(message.getPeerId()
+                        .send(message.getPeerId()
                                 ,"Приветствую!\n\nУзнать список доступных команд бота - !помощь" +
                                         "\nУстановить группу для беседы - !группа [номер]");
             }

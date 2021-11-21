@@ -16,6 +16,6 @@ public class BotInfoService {
     }
 
     public void getAllCommands(Integer peerId){
-        messageSender.generateMessage(peerId, botConfigService.getAllCommands());
+        messageSender.send(peerId, botConfigService.getAllCommands());
     }
 }

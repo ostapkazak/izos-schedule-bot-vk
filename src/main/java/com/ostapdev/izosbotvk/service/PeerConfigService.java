@@ -27,14 +27,14 @@ public class PeerConfigService {
     }
 
     public void getPeerGroupNumber(Integer peerId){
-        messageSender.generateMessage(peerId,"Группа беседы " + getCurrentPeerConfig(peerId).getGroupNumber());
+        messageSender.send(peerId,"Группа беседы " + getCurrentPeerConfig(peerId).getGroupNumber());
     }
 
     public void updateCurrentGroup(Integer peerId,String group){
         PeerConfig peerConfig = getCurrentPeerConfig(peerId);
         peerConfig.setGroupNumber(group);
         peerConfigRepo.save(peerConfig);
-        messageSender.generateMessage(peerId,"Группа беседы изменена на " + group);
+        messageSender.send(peerId,"Группа беседы изменена на " + group);
     }
 
     public void addNewPeerConfig(Integer peerId,String group,BotState botState, boolean isMailing){
@@ -65,7 +65,7 @@ public class PeerConfigService {
         PeerConfig peerConfig = getCurrentPeerConfig(peerId);
         peerConfig.setMailing(isMailing);
         peerConfigRepo.save(peerConfig);
-        messageSender.generateMessage(peerId
+        messageSender.send(peerId
                 ,"Ежедневная рассылка расписания " + (isMailing ? "включена" : "отключена"));
     }
 
